@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <title>Check Nomor WhatsApp</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      margin: 0;
+      padding: 2rem;
+      background: #121212;
+      color: #e0e0e0;
+    }
+
+    h1 {
+      color: #00c853;
+      margin-bottom: 1.5rem;
+      text-align: center;
+    }
+    h2 {
+      color: #00c853;
+      margin-bottom: 1.5rem;
+      text-align: left;
+    }
+    /* Menu Link */
+    .menu-container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-bottom: 2rem;
+      justify-content: center;
+    }
+
+    .menu-container button {
+      background-color: #263238;
+      color: #ffffff;
+      padding: 0.5rem 1rem;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: background-color 0.2s ease;
+    }
+
+    .menu-container button:hover {
+      background-color: #456e8c;
+    }
+
+    label {
+      display: block;
+      font-weight: 600;
+      color: #fdd835;
+      margin-bottom: 0.5rem;
+    }
+
+    textarea {
+      width: 100%;
+      height: 150px;
+      padding: 1rem;
+      border: 1px solid #444;
+      background: #1e1e1e;
+      color: #fff;
+      border-radius: 5px;
+      resize: vertical;
+      font-size: 1rem;
+    }
+
+    button[type="submit"] {
+      margin-top: 1rem;
+      padding: 0.75rem;
+      width: 100%;
+      background-color: #00c853;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    button[type="submit"]:hover {
+      background-color: #00b246;
+    }
+
+    #hasil {
+      margin-top: 2rem;
+      background: #1e1e1e;
+      padding: 1.5rem;
+      border-radius: 8px;
+      border: 1px solid #333;
+    }
+
+    h3 {
+      color: #80d8ff;
+      margin-bottom: 1rem;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    th, td {
+      padding: 0.75rem;
+      border-bottom: 1px solid #333;
+      text-align: left;
+    }
+
+    th {
+      background-color: #263238;
+      color: #ffffff;
+    }
+
+    .terdaftar {
+      color: #00e676;
+      font-weight: bold;
+    }
+
+    .tidak-terdaftar {
+      color: #ff1744;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <h1>Follow up cepat dan mudah</h1>
+
+  <!-- Menu Pilihan -->
+  <div class="menu-container">
+    <button onclick="window.open('https://kurokuro.great-site.net/lawas.html', '_blank')">Lawas</button>
+    <button onclick="window.open('https://kurokuro.great-site.net/siul.html', '_blank')">Siul</button>
+    <button onclick="window.open('https://kurokuro.great-site.net/medali.html', '_blank')">Medali</button>
+    <button onclick="window.open('https://kurokuro.great-site.net/mmpir.html', '_blank')">Mmpir</button>
+    <button onclick="window.open('https://kurokuro.great-site.net/panah.html', '_blank')">Panah</button>
+    <button onclick="window.open('https://kurokuro.great-site.net/arus.html', '_blank')">Arus</button>
+    <button onclick="window.open('https://kurokuro.great-site.net/waras.html', '_blank')">Waras</button>
+    <button onclick="window.open('https://kurokuro.great-site.net/jubir.html', '_blank')">Jubir</button>
+  </div>
+
+  <h2>Check Nomor WhatsApp</h2>
+  <form id="form">
+    <label for="nomor">Masukkan daftar nomor:</label>
+    <textarea id="nomor" placeholder="Format nomor: 62812345..."></textarea>
+    <button type="submit">Mulai Cek</button>
+  </form>
+
+  <div id="hasil">
+    <h3>✅ Hasil:</h3>
+    <table>
+      <thead>
+        <tr>
+          <th>Nomor</th>
+          <th>Status</th>
+        </tr>
+      </thead>
+      <tbody id="hasilBody">
+        <!-- Baris hasil akan dimasukkan di sini -->
+      </tbody>
+    </table>
+  </div>
+
+  <script>
+    const form = document.getElementById('form');
+    const hasilBody = document.getElementById('hasilBody');
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      hasilBody.innerHTML = '<tr><td colspan="2">⏳ Memproses...</td></tr>';
+
+      const nomor = document.getElementById('nomor').value;
+      const res = await fetch('/cek', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ nomor })
+      });
+
+      const data = await res.json();
+
+      if (data.status === 'ok') {
+        hasilBody.innerHTML = '';
+        data.data.forEach(item => {
+          const tr = document.createElement('tr');
+
+          const tdNomor = document.createElement('td');
+          tdNomor.textContent = item.number;
+
+          const tdStatus = document.createElement('td');
+          tdStatus.textContent = item.status;
+          tdStatus.className = item.status.includes('Tidak') ? 'tidak-terdaftar' : 'terdaftar';
+
+          tr.appendChild(tdNomor);
+          tr.appendChild(tdStatus);
+          hasilBody.appendChild(tr);
+        });
+      } else {
+        hasilBody.innerHTML = '<tr><td colspan="2">❌ Gagal memproses.</td></tr>';
+      }
+    });
+  </script>
+</body>
+</html>
