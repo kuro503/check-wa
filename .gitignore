@@ -1,0 +1,15 @@
+node_modules/
+_IGNORE_session/
+session.data.json
+cek-wa.data.json
+.env
+*.log
+hasil/
+numbers.json
+hasil.json
+hasil.txt
+hasil.xlsx
+ChromeSetup.exe
+.DS_Store
+*.swp
+*.swo

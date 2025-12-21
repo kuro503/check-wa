@@ -123,26 +123,21 @@
       color: #ff1744;
       font-weight: bold;
     }
+ 
+    .copyButton:hover {
+      background-color: #456e8c;
+    }
+ 
+ 
   </style>
 </head>
 <body>
-  <h1>Follow up lawas Group</h1>
- 
-  <!-- Menu Pilihan -->
-  <div class="menu-container">
-    <button onclick="window.open('https://kurokuro.great-site.net/lawas.html', '_blank')">Lawastoto</button>
-    <button onclick="window.open('https://kurokuro.great-site.net/siul.html', '_blank')">Siul</button>
-    <button onclick="window.open('https://kurokuro.great-site.net/medali.html', '_blank')">Medali</button>
-    <button onclick="window.open('https://kurokuro.great-site.net/mmpir.html', '_blank')">Mampir</button>
-    <button onclick="window.open('https://kurokuro.great-site.net/panah.html', '_blank')">Panah</button>
-    <button onclick="window.open('https://kurokuro.great-site.net/arus.html', '_blank')">Arus</button>
-    <button onclick="window.open('https://kurokuro.great-site.net/waras.html', '_blank')">Waras</button>
-    <button onclick="window.open('https://kurokuro.great-site.net/jubir.html', '_blank')">Jubir</button>
-  </div>
+  <h1>@ WARNING NUMBER @</h1>
  
   <h2>Check Nomor WhatsApp</h2>
   <form id="form">
-    <label for="nomor">Masukkan daftar nomor:</label>
+    <label for="nomor">Masukkan daftar nomor:
+    </label>
     <textarea id="nomor" placeholder="Format nomor: 62812345..."></textarea>
     <button type="submit">Mulai Cek</button>
   </form>
@@ -157,9 +152,15 @@
         </tr>
       </thead>
       <tbody id="hasilBody">
-        <!-- Baris hasil akan dimasukkan di sini -->
+        
       </tbody>
     </table>
+    <div style="margin-top: 1rem; text-align: right;">
+      <button id="copyButton" style="padding: 0.5rem 1rem; background: #333; color: #fff;  border-radius: 5px;">
+        📋 Copy Hasil
+      </button>
+    </div>
+   
   </div>
  
   <script>
@@ -199,6 +200,29 @@
         hasilBody.innerHTML = '<tr><td colspan="2">❌ Gagal memproses.</td></tr>';
       }
     });
+ 
+document.getElementById('copyButton').addEventListener('click', () => {
+  const rows = document.querySelectorAll('#hasilBody tr');
+  if (rows.length === 0) return alert("Belum ada hasil untuk disalin.");
+ 
+  let hasilText = '';
+  rows.forEach(row => {
+    const nomor = row.children[0]?.innerText.trim();
+    const status = row.children[1]?.innerText.trim();
+    if (nomor && status) {
+      hasilText += `${nomor}\t${status}\n`; // Tab antar kolom
+    }
+  });
+ 
+ 
+  navigator.clipboard.writeText(hasilText)
+    .then(() => alert("✅ Hasil berhasil disalin dalam format 2 kolom!"))
+    .catch(err => {
+      console.error("Gagal menyalin:", err);
+      alert("❌ Gagal menyalin hasil.");
+    });
+});
+ 
   </script>
 </body>
 </html>
